@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Ingredientes</title>
+</head>
+<body>
+    <h1>Lista de Ingredientes</h1>
+    <ul>
+        {% for ingrediente in ingredientes %}
+            <li>{{ ingrediente.nombre }} - ${{ ingrediente.costo_unitario }} por {{ ingrediente.unidad }} (Proveedor: {{ ingrediente.proveedor }})</li>
+        {% endfor %}
+    </ul>
+    <a href="/ingredientes">Agregar Nuevo Ingrediente</a>
+</body>
+</html>

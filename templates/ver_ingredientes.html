@@ -2,16 +2,28 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ver Ingredientes</title>
+    <title>Lista de Ingredientes</title>
 </head>
 <body>
     <h1>Lista de Ingredientes</h1>
-    <ul>
-        {% for ingrediente in ingredientes %}
-            <li>{{ ingrediente.nombre }} - ${{ ingrediente.costo_unitario }} por {{ ingrediente.unidad }} (Proveedor: {{ ingrediente.proveedor }})</li>
-        {% endfor %}
-    </ul>
-    <a href="/ingredientes">Agregar Nuevo Ingrediente</a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Unidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ingrediente in ingredientes %}
+            <tr>
+                <td>{{ ingrediente.nombre }}</td>
+                <td>{{ ingrediente.precio }}</td>
+                <td>{{ ingrediente.unidad }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('gestionar_ingredientes') }}">Agregar otro ingrediente</a>
 </body>
 </html>

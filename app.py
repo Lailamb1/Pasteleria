@@ -1,30 +1,45 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, render_template
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pasteleria.db'  # Usamos SQLite
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pasteleria.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Definir el modelo para los ingredientes
+# Modelo para los ingredientes
 class Ingrediente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
-    costo_unitario = db.Column(db.Float, nullable=False)
+    precio = db.Column(db.Float, nullable=False)
     unidad = db.Column(db.String(50), nullable=False)
 
-    def __repr__(self):
-        return f'<Ingrediente {self.nombre}>'
-
-# Crear la base de datos (solo si no existe)
+# Crear las tablas
 with app.app_context():
     db.create_all()
 
-# Página principal
+# Ruta para la raíz
 @app.route('/')
-def home():
-    return render_template('home.html')
+def inicio():
+    return redirect(url_for('gestionar_ingredientes'))
 
-# Iniciar la aplicación en localhost:5000
+# Ruta para agregar ingredientes
+@app.route('/ingredientes', methods=['GET', 'POST'])
+def gestionar_ingredientes():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        precio = float(request.form['precio'])
+        unidad = request.form['unidad']
+        nuevo_ingrediente = Ingrediente(nombre=nombre, precio=precio, unidad=unidad)
+        db.session.add(nuevo_ingrediente)
+        db.session.commit()
+        return redirect(url_for('ver_ingredientes'))
+    return render_template('ingredientes.html')
+
+# Ruta para ver los ingredientes
+@app.route('/ver_ingredientes')
+def ver_ingredientes():
+    ingredientes = Ingrediente.query.all()
+    return render_template('ver_ingredientes.html', ingredientes=ingredientes)
+
 if __name__ == '__main__':
     app.run(debug=True)

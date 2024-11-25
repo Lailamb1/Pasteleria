@@ -2,25 +2,22 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar Ingrediente</title>
 </head>
 <body>
     <h1>Agregar Ingrediente</h1>
-    <form action="/add_ingrediente" method="POST">
+    <form method="POST">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required><br><br>
         
-        <label for="costo_unitario">Costo unitario:</label>
-        <input type="number" step="0.01" id="costo_unitario" name="costo_unitario" required><br><br>
+        <label for="precio">Precio:</label>
+        <input type="number" step="0.01" id="precio" name="precio" required><br><br>
         
-        <label for="unidad">Unidad:</label>
+        <label for="unidad">Unidad (kg, g, ml, etc.):</label>
         <input type="text" id="unidad" name="unidad" required><br><br>
-
-        <label for="proveedor">Proveedor:</label>
-        <input type="text" id="proveedor" name="proveedor" required><br><br>
-
-        <button type="submit">Agregar Ingrediente</button>
+        
+        <button type="submit">Agregar</button>
     </form>
+    <a href="{{ url_for('ver_ingredientes') }}">Ver Ingredientes</a>
 </body>
 </html>

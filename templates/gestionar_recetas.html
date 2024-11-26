@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Recetas</title>
-    <!-- Puedes agregar una hoja de estilos externa o usar Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <header>
@@ -17,45 +15,40 @@
         </nav>
     </header>
     
-    <main class="container mt-4">
+    <main>
+        <h2>Añadir nueva receta</h2>
+        <form method="POST" action="{{ url_for('gestionar_recetas') }}">
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo" name="titulo" required><br>
 
-        <!-- Formulario para agregar nueva receta -->
-        <section>
-            <h2>Agregar nueva receta</h2>
-            <form action="{{ url_for('gestionar_recetas') }}" method="POST">
-                <div class="form-group">
-                    <label for="titulo">Título de la receta</label>
-                    <input type="text" id="titulo" name="titulo" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="ingredientes">Ingredientes</label>
-                    <textarea id="ingredientes" name="ingredientes" class="form-control" rows="5" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="instrucciones">Instrucciones</label>
-                    <textarea id="instrucciones" name="instrucciones" class="form-control" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Agregar Receta</button>
-            </form>
-        </section>
+            <label for="ingredientes">Ingredientes:</label>
+            <textarea id="ingredientes" name="ingredientes" required></textarea><br>
 
-        <hr>
+            <label for="instrucciones">Instrucciones:</label>
+            <textarea id="instrucciones" name="instrucciones" required></textarea><br>
 
-        <!-- Lista de recetas -->
-        <section>
-            <h2>Recetas existentes</h2>
-            <ul>
-                <!-- Aquí se mostrarían las recetas ya guardadas -->
+            <button type="submit">Agregar Receta</button>
+        </form>
+
+        <h2>Recetas Disponibles</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Ingredientes</th>
+                    <th>Instrucciones</th>
+                </tr>
+            </thead>
+            <tbody>
                 {% for receta in recetas %}
-                    <li>
-                        <h3>{{ receta.titulo }}</h3>
-                        <p><strong>Ingredientes:</strong> {{ receta.ingredientes }}</p>
-                        <p><strong>Instrucciones:</strong> {{ receta.instrucciones }}</p>
-                    </li>
+                    <tr>
+                        <td>{{ receta['titulo'] }}</td>
+                        <td>{{ receta['ingredientes'] }}</td>
+                        <td>{{ receta['instrucciones'] }}</td>
+                    </tr>
                 {% endfor %}
-            </ul>
-        </section>
-
+            </tbody>
+        </table>
     </main>
 </body>
 </html>

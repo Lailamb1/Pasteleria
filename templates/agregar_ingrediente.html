@@ -1,0 +1,9 @@
+<form method="POST" action="{{ url_for('agregar_ingrediente') }}">
+    <label for="nombre">Nombre del ingrediente:</label>
+    <input type="text" id="nombre" name="nombre" required>
+
+    <label for="cantidad">Cantidad:</label>
+    <input type="text" id="cantidad" name="cantidad" required>
+
+    <button type="submit">Agregar Ingrediente</button>
+</form>

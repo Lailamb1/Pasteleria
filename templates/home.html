@@ -3,10 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pastelería</title>
+    <title>Gestión de Recetas</title>
 </head>
 <body>
-    <h1>Bienvenido a la web de pastelería</h1>
-    <p>Aquí podrás gestionar los ingredientes y recetas de tus productos.</p>
+    <h1>Bienvenido a la Gestión de Recetas</h1>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('gestionar_ingredientes') }}">Gestionar Ingredientes</a></li>
+            <li><a href="{{ url_for('gestionar_recetas') }}">Gestionar Recetas</a></li>
+            <li><a href="{{ url_for('gestionar_categorias') }}">Gestionar Categorías</a></li>
+            <!-- Otros enlaces se pueden añadir aquí -->
+        </ul>
+    </nav>
+    <section>
+        <!-- Contenido principal del home -->
+        <p>Selecciona una opción del menú para comenzar.</p>
+    </section>
 </body>
 </html>

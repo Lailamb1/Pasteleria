@@ -19,8 +19,11 @@ with app.app_context():
 
 # Ruta para la raíz
 @app.route('/')
-def inicio():
-    return redirect(url_for('gestionar_ingredientes'))
+def home():
+    return render_template('home.html')
+
+
+
 
 # Ruta para agregar ingredientes
 @app.route('/ingredientes', methods=['GET', 'POST'])
@@ -41,5 +44,15 @@ def ver_ingredientes():
     ingredientes = Ingrediente.query.all()
     return render_template('ver_ingredientes.html', ingredientes=ingredientes)
 
+@app.route('/gestionar_recetas')
+def gestionar_recetas():
+    return render_template('gestionar_recetas.html')
+
+@app.route('/gestionar_categorias')
+def gestionar_categorias():
+    return render_template('gestionar_categorias.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+

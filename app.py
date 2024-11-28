@@ -1,42 +1,25 @@
-import json
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+import json
 
+# Configuración de la aplicación
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///recetas.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///recetas.db'  # Base de datos SQLite
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Filtro personalizado para convertir JSON a lista
-@app.template_filter('from_json')
-def from_json(value):
-    return json.loads(value) if value else []
-
-# Modelo de Receta
+# Modelo de la receta
 class Receta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
     descripcion = db.Column(db.String(500), nullable=False)
-    ingredientes = db.Column(db.String(500), nullable=False)  # Guardaremos la lista de ingredientes como un string JSON
-    preparacion = db.Column(db.String(1000), nullable=False)
+    ingredientes = db.Column(db.Text, nullable=False)  # Ingredientes en formato JSON
+    preparacion = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
         return f'<Receta {self.nombre}>'
-
-# Crear la base de datos (solo si no existe)
-with app.app_context():
-    db.create_all()
-
-# Ruta para la página principal
-@app.route('/')
-def home():
-    return render_template('home.html')
-
-# Ruta para gestionar recetas
-@app.route('/gestionar_recetas')
-def gestionar_recetas():
-    recetas = Receta.query.all()
-    return render_template('gestionar_recetas.html', recetas=recetas)
+    
+    
 
 # Ruta para agregar o editar recetas
 @app.route('/agregar_receta', methods=['GET', 'POST'])
@@ -76,13 +59,32 @@ def agregar_receta(id=None):
 
     return render_template('agregar_receta.html', receta=receta)
 
-# Ruta para eliminar receta
-@app.route('/eliminar_receta/<int:id>')
+# Ruta para gestionar las recetas (mostrar lista de recetas)
+@app.route('/gestionar_recetas')
+def gestionar_recetas():
+    recetas = Receta.query.all()  # Obtener todas las recetas de la base de datos
+    return render_template('gestionar_recetas.html', recetas=recetas)
+
+@app.route('/')
+def home():
+    return render_template('home.html')
+
+# Inicializar la base de datos
+@app.before_request
+def create_tables():
+    db.create_all()
+
+@app.route('/eliminar_receta/<int:id>', methods=['POST'])
 def eliminar_receta(id):
     receta = Receta.query.get_or_404(id)
     db.session.delete(receta)
     db.session.commit()
     return redirect(url_for('gestionar_recetas'))
 
+
+
+
 if __name__ == '__main__':
+    with app.app_context():  # Crear un contexto de la aplicación
+        db.create_all()  # Crear las tablas de la base de datos
     app.run(debug=True)

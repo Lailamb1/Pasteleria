@@ -6,21 +6,19 @@
     <title>Gestionar Recetas</title>
 </head>
 <body>
-    <h1>Gestionar Recetas</h1>
-    <a href="{{ url_for('agregar_receta') }}">Agregar Nueva Receta</a>
+    <h1>Gestión de Recetas</h1>
+    <a href="{{ url_for('agregar_receta') }}">Agregar nueva receta</a>
     <ul>
         {% for receta in recetas %}
             <li>
                 <h3>{{ receta.nombre }}</h3>
                 <p>{{ receta.descripcion }}</p>
-                <h4>Ingredientes:</h4>
-                <ul>
-                    {% for ingrediente in receta.ingredientes | from_json %}
-                        <li>{{ ingrediente }}</li>
-                    {% endfor %}
-                </ul>
-                <a href="{{ url_for('editar_receta', id=receta.id) }}">Editar</a> |
-                <a href="{{ url_for('eliminar_receta', id=receta.id) }}" onclick="return confirm('¿Estás seguro de eliminar esta receta?')">Eliminar</a>
+                <a href="{{ url_for('agregar_receta', id=receta.id) }}">Editar</a> | 
+                
+                <!-- Formulario para eliminar receta -->
+                <form action="{{ url_for('eliminar_receta', id=receta.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
             </li>
         {% endfor %}
     </ul>

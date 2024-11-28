@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if receta %}Editar Receta{% else %}Agregar Receta{% endif %}</title>
+</head>
+<body>
+    <h1>{% if receta %}Editar Receta{% else %}Agregar Receta{% endif %}</h1>
+    <form method="POST">
+        <label for="nombre">Nombre de la receta:</label>
+        <input type="text" id="nombre" name="nombre" value="{{ receta.nombre if receta else '' }}" required>
+        <br>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion" required>{{ receta.descripcion if receta else '' }}</textarea>
+        <br>
+
+        <label for="ingredientes">Ingredientes (separados por salto de línea):</label>
+        <textarea id="ingredientes" name="ingredientes" required>{{ receta.ingredientes | from_json | join('\n') if receta else '' }}</textarea>
+        <br>
+
+        <label for="preparacion">Preparación:</label>
+        <textarea id="preparacion" name="preparacion" required>{{ receta.preparacion if receta else '' }}</textarea>
+        <br>
+
+        <button type="submit">{% if receta %}Actualizar Receta{% else %}Agregar Receta{% endif %}</button>
+    </form>
+    <a href="{{ url_for('gestionar_recetas') }}">Volver a Gestionar Recetas</a>
+</body>
+</html>

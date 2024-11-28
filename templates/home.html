@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <title>Gestión de Recetas</title>
+</head>
+<body>
+    <h1>Bienvenido a la Gestión de Recetas</h1>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('gestionar_recetas') }}">Gestionar Recetas</a></li>
+            <li><a href="{{ url_for('agregar_receta') }}">Agregar Receta</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

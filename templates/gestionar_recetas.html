@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Recetas</title>
+</head>
+<body>
+    <h1>Gestionar Recetas</h1>
+    <a href="{{ url_for('agregar_receta') }}">Agregar Nueva Receta</a>
+    <ul>
+        {% for receta in recetas %}
+            <li>
+                <h3>{{ receta.nombre }}</h3>
+                <p>{{ receta.descripcion }}</p>
+                <h4>Ingredientes:</h4>
+                <ul>
+                    {% for ingrediente in receta.ingredientes | from_json %}
+                        <li>{{ ingrediente }}</li>
+                    {% endfor %}
+                </ul>
+                <a href="{{ url_for('editar_receta', id=receta.id) }}">Editar</a> |
+                <a href="{{ url_for('eliminar_receta', id=receta.id) }}" onclick="return confirm('¿Estás seguro de eliminar esta receta?')">Eliminar</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
